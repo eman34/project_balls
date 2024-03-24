@@ -1,0 +1,430 @@
+<!DOCTYPE html><html><head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <title>NBA Guesser</title>
+  <style>
+    body {
+    font-family: serif;
+    background-color: #1D428A; /* Set background color to #1D428A */
+    color: white;
+  }
+    
+  #logo {
+    font-family: 'Arial', sans-serif; /* Modern font */
+    font-size: 1.5em; /* Appropriate size */
+    color: rgb(255, 255, 255); /* Dark grey color for text */
+    background-color: #16223a; /* Light background */
+    padding: 10px; /* Adds space around the text */
+    text-align: Left; /* Center aligns the text */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-width: 80%; /* Max width, centers it with margin */
+    margin: 20px auto; /* Centers the div and adds vertical space */
+    text-transform: uppercase; /* Capitalizes all letters */
+    letter-spacing: 1.5px; /* Adds spacing between letters */
+  }
+    
+    #image-box {
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    #answer-box {
+  font-family: 'Helvetica Neue', Helvetica, sans-serif; /* Modern, clean font */
+  font-size: 18px; /* Increased font size for better readability */
+  text-align: center;
+  margin: 10px auto; /* Centered with automatic horizontal margins */
+  padding: 20px; /* Consistent padding with the buttons */
+  background-color: #f8f8f8; /* Light background to contrast with the button */
+  color: #333; /* Dark text for readability */
+  border-radius: 5px; /* Rounded corners like the buttons */
+  width: fit-content; /* Adjust width to fit content */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth, similar to button style */
+}
+
+
+input[type="text"] {
+  margin: 10px 5%; /* Centering with margin */
+  padding: 10px;
+  font-size: 1em; /* Comfortable padding for text input */
+  border: 1px solid #ccc; /* Subtle border */
+  border-radius: 5px; /* Rounded corners like the buttons */
+  width: 80%; /* Responsive width */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle inner shadow for depth */
+}
+
+#submit-button{
+  font-family: 'Press Start 2P', cursive; /* Pixel-like font */
+  font-size: 16px; /* Slightly larger font size for buttons */
+  margin: 10px;
+  padding: 10px 20px; /* Increased padding for a larger button appearance */
+  border: none; /* Removes default border */
+  background-color: #007bff; /* Example blue background for visibility */
+  color: white; /* White text for contrast */
+  border-radius: 5px; /* Rounded corners for a modern look */
+  cursor: pointer; /* Changes cursor to pointer on hover over buttons */
+}
+
+#submit-button:hover{
+  background-color: #0056b3; /* Darker shade on hover for interactivity */
+}
+
+#giveup-button {
+  content: "?";
+  font-family: 'Press Start 2P', cursive; /* Pixel-like font */
+  font-size: 16px; /* Slightly larger font size for buttons */
+  margin: 10px;
+  padding: 10px 20px; /* Increased padding for a larger button appearance */
+  border: none; /* Removes default border */
+  background-color: #007bff; /* Example blue background for visibility */
+  color: white; /* White text for contrast */
+  border-radius: 5px; /* Rounded corners for a modern look */
+  cursor: pointer; /* Changes cursor to pointer on hover over buttons */
+}
+
+
+#giveup-button:hover {
+  background-color: #0056b3; /* Darker shade on hover for interactivity */
+}
+
+#help-button {
+  position: fixed;
+  top: 80px;
+  right: 20px; /* Adjust this value based on the share button's width and margin */
+  padding: 10px;
+  width: 70px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#help-button:hover {
+  background-color: #0056b3;
+}
+
+#nba-image {
+    max-width: 90%;
+      width: 600px; /* Adjust the width as per your requirement */
+      height: auto; /* Maintain aspect ratio */
+    }
+
+    /* Style the modal backdrop */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+    padding-top: 60px;
+    transition: 0.5s; /* Smooth transition for the backdrop */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 5% auto; /* 5% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 70%; /* Adjusted width */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    animation: modal-open 0.5s; /* Animation for modal opening */
+}
+
+/* Animation for the modal opening */
+@keyframes modal-open {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 600px) {
+  #logo {
+    font-size: 1.2em; /* Smaller font size on mobile */
+  }
+}
+/* The Close Button */
+.close {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+footer#feedback-section {
+  font-family: 'Helvetica Neue', Helvetica, sans-serif; /* Consistent font family */
+  font-size: 12px; /* Matching font size */
+  text-align: center; /* Center the text */
+  color: #fff; /* White text color for readability */
+  background-color: #16223a; /* Matching the logo background color */
+  padding: 10px; /* Adequate padding for spacing */
+  width: 100%; /* Full width */
+  position: fixed; /* Fix position to the bottom */
+  bottom: 0; /* Align at the bottom */
+  left: 0; /* Align to the left */
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+footer#feedback-section a {
+  color: #4ea1d3; /* A light blue color for the hyperlink for visibility */
+  text-decoration: none; /* No underline */
+}
+
+footer#feedback-section a:hover {
+  text-decoration: underline; /* Underline on hover for interactivity */
+}
+
+#countdown-timer {
+  color: #00008B; /* Dark blue color */
+  padding: 10px; /* Add some padding around the text */
+  background-color: #f8f8f8; /* Light background for contrast */
+  border-radius: 5px; /* Rounded corners for visual appeal */
+  margin-top: 20px; /* Extra space above the timer */
+}
+
+#top-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+#lives-box {
+  position: fixed;
+  display: flex;
+  flex-direction: column;  /* Align items vertically */
+  align-items: center;  /* Center-align the items */
+  width: 50px;
+  top: 120px; /* Distance from the top of the viewport */
+  right: 20px; /* Distance from the right of the viewport */
+  padding: 10px;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#lives-text {
+  color: #000000;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  padding: 10px;
+}
+
+#lives-box img {
+  width: 40px;
+  height: auto;
+  margin: 0 5px;
+  vertical-align: middle;
+}
+
+.extra-spacing {
+  margin-bottom: 120px; /* Adjust the value as needed */
+}
+        
+  </style>
+<body>
+  <div id="logo">who's hoop | the NBA face fusion guessing game</div>
+
+  <div id="lives-box">
+    <span id="lives-text">Lives</span>
+    <img src="https://i.ibb.co/2MCwJRg/red-heart.png" id="heart1" alt="Heart 1">
+    <img src="https://i.ibb.co/2MCwJRg/red-heart.png" id="heart2" alt="Heart 2">
+    <img src="https://i.ibb.co/2MCwJRg/red-heart.png" id="heart3" alt="Heart 3">
+  </div>
+  
+  <div id="image-box">
+    <img id="nba-image" src="" alt="NBA Image"> 
+  </div>
+  
+  <div id="answer-box">
+    <input type="text" id="player1" placeholder="Select Player 1">
+    <input type="text" id="player2" placeholder="Select Player 2">
+    <button id="submit-button" onclick="checkAnswer()">Submit</button>
+    <button id="giveup-button" onclick="giveUp()">Give Up</button>
+    <div id="result"></div>
+
+  <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">×</span>
+        <p id="resultMessage"></p>
+      </div>
+    </div>
+  
+  <button id="help-button" title="Help">Help</button>
+
+  <div id="help-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">×</span>
+      <p id="countdown-timer">Time until next player fusion: 00:00:00</p>
+      <h2>Game Rules</h2>
+      <p>Welcome to the NBA Face Fusion Game! Here's how to play:</p>
+      <p>You will be presented with an image of two NBA players' faces fused together. Your task is to guess the two players and enter their names into the provided input fields.</p>
+      <p>Click the 'Submit' button to check your answers. If you're correct, you'll see a confirmation message!</p>
+      <p>If you're unsure, you can click the 'Give Up' button to reveal the answers.</p>
+      <p class="extra-spacing">Have fun and test your NBA knowledge!</p>
+      <p><i>Feel free to direct any feedback, suggestions, and bug reports <a href="mailto:steven.zhang512@gmail.com">here</a>.</i></p>
+      <p>Created by Edson Wu, Weems Hsieh and Steven Zhang</p>
+    </div>
+  </div>
+
+  <footer id="feedback-section">
+    
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  
+  <script>
+    $(function() {
+      var players = [
+        "A.J. Green","A.J. Griffin, Jr.","A.J. Lawson","Aaron Gordon","Aaron Holiday","Aaron Nesmith","Aaron Wiggins","Adam Flagler","Adama Sanogo","Admiral Schofield","Al Horford","Alec Burks","Aleksej Pokusevski","Alex Caruso","Alex Len","Alondes Williams","Alperen Sengun","Amari Bailey","Amen Thompson","Amir Coffey","Andre Drummond","Andre Jackson, Jr.","Andrew Nembhard","Andrew Wiggins","Anfernee Simons","Anthony Black","Anthony Davis","Anthony Edwards","Anthony Gill","Ausar Thompson","Austin Reaves","Ayo Dosunmu","B.J. Boston, Jr.","Bam Adebayo","Ben Sheppard","Ben Simmons","Bennedict Mathurin","Bilal Coulibaly","Bismack Biyombo","Blake Wesley","Boban Marjanovic","Bobby Portis","Bogdan Bogdanovic","Bojan Bogdanovic","Bol Bol","Bones Hyland","Bradley Beal","Brandin Podziemski","Brandon Clarke","Brandon Ingram","Brandon Miller","Brandon Williams","Braxton Key","Brice Sensabaugh","Brook Lopez","Bruce Brown, Jr.","Bruno Fernando","Bryce McGowens","Buddy Hield","C.J. McCollum","Cade Cunningham","Caleb Houstan","Caleb Martin","Cam Reddish","Cam Thomas","Cam Whitmore","Cameron Johnson","Cameron Payne","Caris LeVert","Cason Wallace","Cedi Osman","Charles Bassey","Charlie Brown, Jr.","Chet Holmgren","Chris Boucher","Chris Duarte","Chris Livingston","Chris Paul","Christian Braun","Christian Wood","Chuma Okeke","Clint Capela","Coby White","Cody Martin","Cody Zeller","Colby Jones","Cole Anthony","Cole Swider","Colin Castleton","Collin Gillespie","Collin Sexton","Corey Kispert","Craig Porter, Jr.","Daishen Nix","Dalano Banton","Dalen Terry","Damian Jones","Damian Lillard","Damion Lee","D'Angelo Russell","Daniel Gafford","Daniel Theis","Danilo Gallinari","Dante Exum","Dario Saric","Dariq Whitehead","Darius Garland","David Duke","David Roddy","Davion Mitchell","Davis Bertans","Day'Ron Sharpe","De'Aaron Fox","Dean Wade","Deandre Ayton","De'Andre Hunter","DeAndre Jordan","De'Anthony Melton","Dejounte Murray","Delon Wright","DeMar DeRozan","Deni Avdija","Dennis Schroder","Dennis Smith","Dereck Lively II","Dereon Seabron","Derrick Jones","Derrick Rose","Derrick White","Desmond Bane","Devin Booker","Devin Vassell","Devonte' Graham","Dillon Brooks","Domantas Sabonis","Dominick Barlow","Donovan Mitchell","Donte DiVincenzo","Dorian Finney-Smith","Doug McDermott","Draymond Green","Drew Eubanks","Drew Peterson","Dru Smith","Duane Washington, Jr.","Duncan Robinson","Duop Reath","Dwight Powell","Dylan Windler","Dyson Daniels","E.J. Liddell","Emoni Bates","Eric Gordon","Eugene Omoruyi","Evan Fournier","Evan Mobley","Franz Wagner","Fred VanVleet","G.G. Jackson","Gabe Vincent","Garrett Temple","Garrison Mathews","Gary Harris","Gary Payton II","Gary Trent, Jr.","Georges Niang","Giannis Antetokounmpo","Goga Bitadze","Gordon Hayward","Gradey Dick","Grant Williams","Grayson Allen","Greg Brown III","Gui Santos","Harrison Barnes","Haywood Highsmith","Henri Drell","Herb Jones","Hunter Tyson","Ibou Badji","Immanuel Quickley","Isaac Okoro","Isaiah Hartenstein","Isaiah Jackson","Isaiah Joe","Isaiah Livers","Isaiah Mobley","Isaiah Stewart II","Isaiah Wong","Ivica Zubac","J.D. Davison","J.T. Thor","Ja Morant","Jabari Smith, Jr.","Jabari Walker","Jacob Gilyard","Jacob Toppin","Jaden Hardy","Jaden Ivey","Jaden McDaniels","Jaden Springer","Jae Crowder","Jae'sean Tate","Jaime Jaquez, Jr.","Jake LaRavia","Jakob Poeltl","Jalen Brunson","Jalen Duren","Jalen Green","Jalen Hood-Schifino","Jalen Johnson","Jalen McDaniels","Jalen Pickett","Jalen Slawson","Jalen Smith","Jalen Suggs","Jalen Williams","Jalen Wilson","Jamal Cain","Jamal Murray","James Harden","James Huff","James Johnson","James Wiseman","Jarace Walker","Jared Butler","Jared Rhoden","Jaren Jackson, Jr.","Jarred Vanderbilt","Jarrett Allen","Jason Preston","JaVale McGee","Javon Freeman-Liberty","Jaxson Hayes","Jaylen Brown","Jaylen Clark","Jaylin Williams","Jayson Tatum","Jeff Green","Jerami Grant","Jeremiah Robinson-Earl","Jeremy Sochan","Jericho Sims","Jermaine Samuels","Jerome Robinson","Jett Howard","Jevon Carter","Jimmy Butler","Jock Landale","Joe Ingles","Joel Embiid","John Collins","John Konchar","Johnny Davis","Johnny Juzang","Jonas Valanciunas","Jonathan Isaac","Jonathan Kuminga","Jontay Porter","Jordan Clarkson","Jordan Ford","Jordan Hawkins","Jordan McLaughlin","Jordan Miller","Jordan Nwora","Jordan Poole","Jordan Walsh","Jose Alvarado","Josh Giddey","Josh Green","Josh Hart","Josh Minott","Josh Okogie","Josh Richardson","Joshua Primo","Jrue Holiday","Jules Bernard","Julian Champagnie","Julian Phillips","Julian Strawther","Julius Randle","Justin Holiday","Justin Minaya","Jusuf Nurkic","K.J. Martin","Karl-Anthony Towns","Kawhi Leonard","Keegan Murray","Keita Bates-Diop","Keldon Johnson","Kelly Olynyk","Kelly Oubre, Jr.","Kendall Brown","Kenny Lofton, Jr.","Kenrich Williams","Kentavious Caldwell-Pope","Keon Ellis","Keon Johnson","Kessler Edwards","Kevin Durant","Kevin Huerter","Kevin Love","Kevon Harris","Kevon Looney","Keyontae Johnson","Keyonte George","Khris Middleton","Kira Lewis, Jr.","Klay Thompson","Kobe Brown","Kobe Bufkin","Kris Dunn","Kris Murray","Kristaps Porzingis","Kyle Anderson","Kyle Kuzma","Kyle Lowry","Kyrie Irving","Lamar Stevens","LaMelo Ball","Landry Shamet","Larry Nance, Jr.","Lauri Markkanen","Leaky Black","LeBron James","Leonard Miller","Lester Quinones","Lindy Waters III","Lonnie Walker","Lonzo Ball","Luguentz Dort","Luka Doncic","Luka Garza","Luka Samanic","Luke Kennard","Luke Kornet","Malachi Flynn","Malaki Branham","Malcolm Brogdon","Malcolm Cazalon","Malik Beasley","Malik Monk","Mamadi Diakite","Marcus Morris","Marcus Sasser","Marcus Smart","MarJon Beauchamp","Mark Williams","Markelle Fultz","Markieff Morris","Markquis Nowell","Marvin Bagley III","Mason Jones","Mason Plumlee","Matisse Thybulle","Matt Ryan","Max Christie","Max Strus","Maxi Kleber","Maxwell Lewis","Micah Potter","Michael Porter, Jr.","Mikal Bridges","Mike Conley","Mike Muscala","Miles Bridges","Miles McBride","Mitchell Robinson","Moe Wagner","Mohamed Bamba","Monte Morris","Moses Brown","Moses Moody","Mouhamed Gueye","Moussa Diabate","Myles Turner","Naji Marshall","Nassir Little","Nate Mensah","Nate Williams, Jr.","Nathaniel Hinton","Naz Reid","Neemias Queta","Nick Richards","Nick Smith, Jr.","Nickeil Alexander-Walker","Nicolas Batum","Nicolas Claxton","Nikola Jokic","Nikola Jovic","Nikola Vucevic","Noah Clowney","Norman Powell","Obi Toppin","Ochai Agbaji","OG Anunoby","Olivier Sarr","Olivier-Maxence Prosper","Omer Yurtseven","Onuralp Bitim","Onyeka Okongwu","Orlando Robinson","Oscar Tshiebwe","Oshae Brissett","Otto Porter","Ousmane Dieng","P.J. Tucker","P.J. Washington","Paolo Banchero","Pascal Siakam","Pat Connaughton","Patrick Baldwin, Jr.","Patrick Beverley","Patrick Williams","Patty Mills","Paul George","Paul Reed, Jr.","Payton Pritchard","Pete Nance","Peyton Watson","Precious Achiuwa","Quentin Grimes","R.J. Barrett","Rayan Rupert","Reggie Bullock","Reggie Jackson","Richaun Holmes","Ricky Council IV","Robert Covington","Robert Williams","Royce O'Neale","Rudy Gobert","Rui Hachimura","Russell Westbrook","Saben Lee","Saddiq Bey","Sam Hauser","Sam Merrill","Sandro Mamukelashvili","Santi Aldama","Sasha Vezenkov","Scoot Henderson","Scottie Barnes","Scotty Pippen, Jr.","Seth Curry","Seth Lundy","Shaedon Sharpe","Shai Gilgeous-Alexander","Shake Milton","Sidy Cissoko","Simone Fontecchio","Skylar Mays","Spencer Dinwiddie","Stanley Umude","Stephen Curry","Steven Adams","Svi Mykhailiuk","T.J. McConnell","Talen Horton-Tucker","Tari Eason","Taurean Prince","Taylor Hendricks","Terance Mann","Terquavion Smith","Terry Rozier","Terry Taylor","Thanasis Antetokounmpo","Theo Maledon","Thomas Bryant","Tim Hardaway Jr.","Tobias Harris","Torrey Craig","Toumani Camara","Trae Young","Trayce Jackson-Davis","Tre Jones","Tre Mann","Trendon Watford","Trent Forrest","Trevelin Queen","Trey Jemison","Trey Lyles","Trey Murphy III","Tristan Thompson","Troy Brown, Jr.","Ty Jerome","Tyler Herro","Tyrese Haliburton","Tyrese Maxey","TyTy Washington, Jr.","Tyus Jones","Udoka Azubuike","Usman Garuba","Vasilije Micic","Victor Wembanyama","Vincent Williams, Jr.","Vit Krejci","Vlatko Cancar","Walker Kessler","Wendell Carter, Jr.","Wendell Moore, Jr.","Wesley Matthews","Xavier Moon","Xavier Tillman, Sr.","Yuta Watanabe","Zach Collins","Zach LaVine","Zeke Nnaji","Ziaire Williams","Zion Williamson"
+
+      ];
+  
+      $("#player1, #player2").autocomplete({
+        source: players
+      });
+    });
+  
+  
+
+    document.getElementById('help-button').addEventListener('click', function() {
+      document.getElementById('help-modal').style.display = 'block';
+    });
+    
+    // Add event listeners to all elements with the 'close' class
+    var closeButtons = document.getElementsByClassName('close');
+    for (var i = 0; i < closeButtons.length; i++) {
+      closeButtons[i].addEventListener('click', function() {
+        this.closest('.modal').style.display = 'none';
+      });
+    }
+    
+    // Refactor to handle clicks outside of any modal
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.style.display = "none";
+      }
+    }
+
+    const imagesAndAnswers = [
+    { img: "https://i.ibb.co/7Rrbwfc/Z3.png", ans1: "Stephen Curry", ans2: "Lebron James" },
+    { img: "https://i.ibb.co/J520241/Z2.png", ans1: "Stephen Curry", ans2: "Klay Thompson" },
+    { img: "https://i.ibb.co/v39kXHH/Z4.png", ans1: "Steven Adams", ans2: "Tobias Harris" },
+    { img: "https://i.ibb.co/ZL08wrQ/z8.png", ans1: "Pascal Siakam", ans2: "Damian Lillard" },
+    { img: "https://i.ibb.co/wYKpgvd/Z1.png", ans1: "Shai Gilgeous-Alexander", ans2: "Anthony Edwards" },
+    { img: "https://i.ibb.co/wSBWF48/z7.png", ans1: "Ivica Zubac", ans2: "Trae Young" },
+    { img: "https://i.ibb.co/VLCF6zT/z6.png", ans1: "Kelly Olynyk", ans2: "Tyus Jones" }
+  ];
+
+const today = new Date();
+const index = today.getDate() % imagesAndAnswers.length;
+
+const selectedImageAndAnswers = imagesAndAnswers[index];
+function updateTimer() {
+  const now = new Date();
+  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  const timeDiff = tomorrow - now;
+
+  let hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  let minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+  let seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+  hours = hours < 10 ? '0' + hours : hours;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  seconds = seconds < 10 ? '0' + seconds : seconds;
+
+  document.getElementById('countdown-timer').textContent = `Time until next player fusion: ${hours}:${minutes}:${seconds}`;
+}
+
+// Update the timer every second
+setInterval(updateTimer, 1000);
+
+document.getElementById('nba-image').src = selectedImageAndAnswers.img;
+    
+let lives = 3; // Starting number of lives
+
+function checkAnswer() {
+  var player1 = document.getElementById("player1").value;
+  var player2 = document.getElementById("player2").value;
+  
+  var modal = document.getElementById("myModal");
+  modal.style.display = "block";
+
+  if ((player1 === selectedImageAndAnswers.ans1 && player2 === selectedImageAndAnswers.ans2) || 
+      (player1 === selectedImageAndAnswers.ans2 && player2 === selectedImageAndAnswers.ans1)) {
+    document.getElementById("resultMessage").innerHTML = "<span style='color:green;'>Correct</span>";
+  } else {
+    document.getElementById("resultMessage").innerHTML = "<span style='color:red;'>Incorrect, please try again</span>";
+    loseLife();
+  }
+}
+
+function loseLife() {
+  lives--;
+  document.getElementById(`heart${lives + 1}`).src = "https://i.ibb.co/r3tF7Tk/black-heart.png"; // Update to the black heart image
+  if (lives <= 0) {
+    document.getElementById('player1').disabled = true;
+    document.getElementById('player2').disabled = true;
+    document.getElementById('submit-button').disabled = true;
+    document.getElementById('giveup-button').disabled = true;
+    giveUp();
+  }
+}
+
+function giveUp() {
+  // Disable the input fields
+  document.getElementById('player1').disabled = true;
+  document.getElementById('player2').disabled = true;
+  document.getElementById('submit-button').disabled = true;
+  document.getElementById('giveup-button').disabled = true;
+
+  // Update all hearts to black
+  for (let i = 1; i <= 3; i++) {
+    document.getElementById(`heart${i}`).src = "https://i.ibb.co/r3tF7Tk/black-heart.png";
+  }
+
+  // Set lives to 0
+  lives = 0;
+
+  // Show the modal
+  var modal = document.getElementById("myModal");
+  document.getElementById("resultMessage").innerHTML = "The correct answers are: " + 
+    selectedImageAndAnswers.ans1 + " and " + selectedImageAndAnswers.ans2;
+  modal.style.display = "block";
+}
+
+
+    </script>
+    
+  
+  <footer id="feedback-section">
+    Feel free to direct any feedback, suggestions, and bug reports <a href="mailto:steven.zhang512@gmail.com">here</a>.
+  </footer>
+  
+  
+ </html>
